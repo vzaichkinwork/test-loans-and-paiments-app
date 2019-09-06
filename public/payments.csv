@@ -1,0 +1,6 @@
+payment_number,amount,currency,payment_info
+P111, 100, USD, L111
+P112, 200.00, USD, L112
+P113, 300, EUR, L121
+P114, 400.99, USD, L114
+P115, 500, GBP, L122

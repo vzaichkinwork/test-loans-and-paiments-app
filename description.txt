@@ -1,0 +1,47 @@
+To start project under linux just start
+./start.sh
+This script starts to download & install docker containers.
+The process can be pretty long.
+There are maybe conflicts with another apps that using port 80
+like nginx, apache, lighthttpd. You need to stop them before
+starting script to avoid conflicts.
+After running containers you can stop them with another script
+./stop.sh
+
+App site will be available under http://localhost/calc
+
+There are several comments in code for different classes & methods
+on how to implement them better in production.
+
+There answers on task questions:
+Q: 1. Partial payments - payment covers only some part of loan
+
+A: Extend status flag for loans to support "partially paid" condition.
+
+Q: 2. Overpayments - Payment is larger than loan amount
+
+A: Complex case. We need to identify such case (there is branch in code with comment)
+and then warn admin about that. So we need some capability to list such cases &
+make refund.
+
+Q: 3. Loans and payments can be stored in other currencies
+
+A: I've implemented in code storing payments in different currencies with
+storing original amount & currency converted. In case of loans in different
+currencies we need to extend loans table & check loan currency before payment conversion.
+
+Q: 4. Assume that system now has clients and invoices. Payment info can have client number,
+invoice number, loan number. How would the assignment process change and what might be the
+ issues, if we have priorities in which order assignment should be processed, e.g., invoices
+should be checked first, loans second etc.
+
+A: In case of my app all payments are connected to loans automatically (just because of the
+tables structure). Because payments can be without actual loans for a moment I did not create
+any constraints like foreign keys between tables. Therefore in this case we can import payments
+first &  then loans (means no matter the sequence) because all of them will be connected
+automatically. The same feature we can implement for clients & invoices.
+
+But if we must check invoice or client or loan existence (kind of validity of the payment)
+then we need to check client exists, then invoice exists, then loan exists. In case of absence
+some of the entities we could store payment with some flag to warn admin to check this payment
+& maybe correct data or remove it.
